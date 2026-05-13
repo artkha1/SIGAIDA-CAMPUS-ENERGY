@@ -442,7 +442,7 @@ Contributions are welcome! Please follow these steps:
 ## 🙏 Acknowledgments
 
 - **SIGAIDA** - Initiative sponsor
-- **Project Contributors**: Shubh Jain, Ria Sinha, Dev Shah, Sanjana Kambhampati
+- **Project Contributors**: Artem Khaiet, Shubh Jain, Ria Sinha, Dev Shah, Sanjana Kambhampati
 - **UIUC** - University of Illinois at Urbana-Champaign
 - **OpenAQ** - Air quality data provider
 - **Open-Meteo** - Weather data API
