@@ -52,7 +52,7 @@ The easiest way to run the application:
 
 #### For Windows:
 ```bash
-start.bat
+./start.bat
 ```
 
 **That's it!** The script will:
@@ -75,7 +75,7 @@ start.bat
 
 #### For Windows:
 ```bash
-stop.bat
+./stop.bat
 ```
 
 Or press `Ctrl+C` and manually kill processes if needed.
@@ -139,6 +139,7 @@ Visit http://localhost:3000 and you should see:
 - ✅ Weather page
 - ✅ Vegetation (NDVI) page
 - ✅ Transit page
+- ✅ ML Predictions page
 
 ---
 

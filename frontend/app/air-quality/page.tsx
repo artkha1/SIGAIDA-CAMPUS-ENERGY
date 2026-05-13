@@ -5,7 +5,6 @@ import { getCurrentAirQuality, getHistoricalAirQuality, getOpenAQData } from '@/
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AirQualityChart } from '@/components/charts/AirQualityChart';
 import { PollutantComparison } from '@/components/charts/PollutantComparison';
-import { InteractivePollutantChart } from '@/components/charts/InteractivePollutantChart';
 import { PollutantBarChart } from '@/components/charts/PollutantBarChart';
 import { AirQualityData, OpenAQData } from '@/lib/types';
 import { getAQICategory, getDateRange, formatNumber } from '@/lib/utils';
@@ -154,23 +153,6 @@ export default function AirQualityPage() {
             </CardContent>
           </Card>
         )}
-
-        {/* Interactive Dropdown Chart (from subteam2 notebook) */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Interactive Pollutant Analysis</CardTitle>
-            <CardDescription>
-              Use the dropdown menu to view individual pollutants or all together
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {historicalAQ.length > 0 ? (
-              <InteractivePollutantChart data={historicalAQ} />
-            ) : (
-              <p className="text-sm text-gray-500">No data available</p>
-            )}
-          </CardContent>
-        </Card>
 
         <Card>
           <CardHeader>

@@ -69,7 +69,7 @@ if [ $? -eq 0 ]; then
     echo "To view your cron jobs, run: crontab -l"
     echo "To remove this cron job, run: crontab -e"
     echo ""
-    echo "Logs will be written to: /Users/shubh/Desktop/sigaida rep/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.log"
+    echo "Logs will be written to: /SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.log"
 else
     echo ""
     echo "✗ Failed to add cron job. You may need to grant cron permissions in System Preferences."

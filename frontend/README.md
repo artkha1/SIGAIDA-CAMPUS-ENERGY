@@ -58,14 +58,15 @@ npm start
 
 ```
 frontend/
-├── app/                        # Next.js app directory (routes)
-│   ├── page.tsx               # Dashboard
-│   ├── air-quality/page.tsx   # Air quality page
-│   ├── weather/page.tsx       # Weather page
-│   ├── vegetation/page.tsx    # NDVI/Vegetation page
-│   ├── transit/page.tsx       # Transit page
-│   ├── layout.tsx             # Root layout
-│   └── globals.css            # Global styles
+├── app/                         # Next.js app directory (routes)
+│   ├── page.tsx                 # Dashboard
+│   ├── air-quality/page.tsx     # Air quality page
+│   ├── weather/page.tsx         # Weather page
+│   ├── vegetation/page.tsx      # NDVI/Vegetation page
+│   ├── transit/page.tsx         # Transit page
+│   ├── ml-predictions/page.tsx  # ML predictions page
+│   ├── layout.tsx               # Root layout
+│   └── globals.css              # Global styles
 ├── components/
 │   ├── ui/                    # Reusable UI components
 │   ├── charts/                # Chart components (Plotly)

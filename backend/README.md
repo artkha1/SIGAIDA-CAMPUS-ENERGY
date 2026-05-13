@@ -91,9 +91,10 @@ backend/
 ├── database.py          # Database connection and queries
 ├── models.py            # Pydantic models for validation
 ├── requirements.txt     # Python dependencies
-├── ml/                  # Machine learning module (placeholder)
+├── model1_pm25.pth      # RNN model for PM2.5 prediction
+├── ml/                  # Machine learning module
 │   ├── __init__.py
-    ├── lstm_pm25.py     # Air quality prediction model
+│   ├── lstm_pm25.py     # Air quality prediction model
 │   └── predict.py       # ML prediction functions
 └── README.md           # This file
 ```
@@ -120,15 +121,6 @@ All endpoints return appropriate HTTP status codes:
 - `500` - Internal server error
 
 Error responses include a `detail` field with error description.
-
-## Machine Learning Integration
-
-The `ml/` module contains placeholder functions for future ML model integration. To implement actual models:
-
-1. Train your models using the historical data
-2. Save trained models (e.g., `.pkl`, `.h5`, `.pt` files)
-3. Update `ml/predict.py` to load and use your models
-4. Add new API endpoints in `main.py` to expose predictions
 
 ## Development
 
@@ -163,7 +155,7 @@ The `ml/` module contains placeholder functions for future ML model integration.
 - [ ] Add authentication and API keys
 - [ ] Implement rate limiting
 - [ ] Add WebSocket support for real-time data streams
-- [ ] Train and deploy ML models for predictions
+- [ ] Train and deploy more ML models for predictions
 - [ ] Add data validation and sanitization
 - [ ] Implement database connection pooling
 - [ ] Add comprehensive logging

@@ -12,8 +12,6 @@ A comprehensive full-stack application for collecting, analyzing, and visualizin
 
 📖 **[Complete Quick Start & Deployment Guide →](QUICK_START_GUIDE.md)**
 
-📋 [How to Run (Basic) →](QUICK_START_GUIDE.md)
-
 ---
 
 ## 📋 Table of Contents
@@ -61,6 +59,10 @@ A comprehensive full-stack application for collecting, analyzing, and visualizin
 - Interactive campus transit map
 - Real-time stop locations
 
+### 🧠 Machine Learning Predictions
+- Anomaly detection for recent air quality records
+- Hourly forecasting of air quality metrics using a recurrent neural network (LSTM)
+
 ### 📊 Dashboard
 - Comprehensive overview of all metrics
 - Live data feeds
@@ -87,6 +89,8 @@ A comprehensive full-stack application for collecting, analyzing, and visualizin
 │  Chart.js       │      │  - Open-Meteo    │
 └─────────────────┘      │  - Google EE     │
                          │  - NWS           │
+                         │ Trained ML models│
+                         │  - Pytorch       │
                          └──────────────────┘
 ```
 
@@ -105,6 +109,7 @@ A comprehensive full-stack application for collecting, analyzing, and visualizin
 - SQLite
 - Pydantic
 - Pandas
+- Pytorch
 
 **Data Collection:**
 - OpenAQ API
@@ -218,34 +223,38 @@ Open your browser and navigate to:
 ```
 SIGAIDA-CAMPUS-ENERGY/
 ├── backend/                    # FastAPI backend
-│   ├── main.py                # API routes and app
-│   ├── database.py            # Database queries
-│   ├── models.py              # Pydantic schemas
-│   ├── ml/                    # ML model placeholders
-│   │   └── predict.py
-│   ├── requirements.txt       # Python dependencies
+│   ├── main.py              # FastAPI application and routes
+│   ├── database.py          # Database connection and queries
+│   ├── models.py            # Pydantic models for validation
+│   ├── requirements.txt     # Python dependencies
+│   ├── model1_pm25.pth      # RNN model for PM2.5 prediction
+│   ├── ml/                  # Machine learning module
+│   │   ├── __init__.py
+│   │   ├── lstm_pm25.py     # Air quality prediction model
+│   │   └── predict.py       # ML prediction functions
 │   ├── Dockerfile            # Backend Docker config
 │   └── README.md             # Backend docs
 │
-├── frontend/                  # Next.js frontend
-│   ├── app/                   # Next.js pages
-│   │   ├── page.tsx          # Dashboard
-│   │   ├── air-quality/      # Air quality page
-│   │   ├── weather/          # Weather page
-│   │   ├── vegetation/       # NDVI page
-│   │   └── transit/          # Transit page
-│   ├── components/           # React components
-│   │   ├── ui/               # Reusable UI
-│   │   ├── charts/           # Chart components
-│   │   ├── maps/             # Map components
-│   │   └── layout/           # Layout components
-│   ├── lib/                  # Utilities
-│   │   ├── api.ts            # API client
-│   │   ├── types.ts          # TypeScript types
-│   │   └── utils.ts          # Helper functions
-│   ├── package.json          # Node dependencies
-│   ├── Dockerfile           # Frontend Docker config
-│   └── README.md            # Frontend docs
+├── frontend/                      # Next.js frontend
+│   ├── app/                         # Next.js pages
+│   │   ├── page.tsx                 # Dashboard
+│   │   ├── air-quality/             # Air quality page
+│   │   ├── weather/                 # Weather page
+│   │   ├── vegetation/              # NDVI page
+│   │   ├── ml-predictions/page.tsx  # ML predictions page
+│   │   └── transit/                 # Transit page
+│   ├── components/                  # React components
+│   │   ├── ui/                      # Reusable UI
+│   │   ├── charts/                  # Chart components
+│   │   ├── maps/                    # Map components
+│   │   └── layout/                  # Layout components
+│   ├── lib/                         # Utilities
+│   │   ├── api.ts                   # API client
+│   │   ├── types.ts                 # TypeScript types
+│   │   └── utils.ts                 # Helper functions
+│   ├── package.json                 # Node dependencies
+│   ├── Dockerfile                  # Frontend Docker config
+│   └── README.md                   # Frontend docs
 │
 ├── data_collection/          # Data collection scripts
 │   ├── campus_data.db       # SQLite database (17 MB)
@@ -253,13 +262,16 @@ SIGAIDA-CAMPUS-ENERGY/
 │   ├── historical_and_current_air_quality_data.py
 │   ├── historical_weather_data.py
 │   ├── weather_forecast.py
+│   ├── weather_gov.py
 │   ├── vegetation_data.py
 │   ├── push_ndvi_data.py
 │   └── transit.py
 │
-├── visualizations/           # Jupyter notebooks
+├── notebooks/           # Jupyter notebooks
 │   ├── aqi_real_time.ipynb
 │   ├── ndvi_testing.ipynb
+│   ├── pm25_testing_script.ipynb
+│   ├── testing_stuff.ipynb
 │   ├── subteam2.ipynb
 │   └── subteam3.ipynb
 │
@@ -275,9 +287,9 @@ SIGAIDA-CAMPUS-ENERGY/
 
 | **Data Type** | **Source** | **Coverage** | **Resolution** |
 |---------------|------------|--------------|----------------|
-| Air Quality | Open-Meteo | 2022-2025 | Hourly |
+| Air Quality | Open-Meteo | 2022-present | Hourly |
 | Air Quality | OpenAQ (Sensor #8706090) | 2024-present | Real-time |
-| Weather | Open-Meteo Archive | 1940-2025 | Daily |
+| Weather | Open-Meteo Archive | 1940-present | Daily |
 | Weather | Open-Meteo Forecast | Next 16 days | Hourly |
 | Weather | NWS API | Current | Hourly |
 | Vegetation | Google Earth Engine (Sentinel-2) | 2016-2025 | Monthly, 100m grid |
@@ -415,7 +427,6 @@ Contributions are welcome! Please follow these steps:
 
 ## 📝 Future Enhancements
 
-- [ ] Implement actual ML models for air quality prediction
 - [ ] Add real-time WebSocket data streaming
 - [ ] Implement user authentication and profiles
 - [ ] Add data export functionality (CSV, JSON)
@@ -430,7 +441,8 @@ Contributions are welcome! Please follow these steps:
 
 ## 🙏 Acknowledgments
 
-- **SIGAIDA** - Research initiative sponsor
+- **SIGAIDA** - Initiative sponsor
+- **Project Contributors**: Shubh Jain, Ria Sinha, Dev Shah, Sanjana Kambhampati
 - **UIUC** - University of Illinois at Urbana-Champaign
 - **OpenAQ** - Air quality data provider
 - **Open-Meteo** - Weather data API
@@ -450,6 +462,3 @@ For questions or support, please open an issue on GitHub or contact the project 
 This project is part of the SIGAIDA Campus Energy initiative at UIUC.
 
 ---
-
-**Made with ❤️ for a sustainable campus future**
-~Shubh

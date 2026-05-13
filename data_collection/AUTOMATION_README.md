@@ -30,16 +30,16 @@ This will guide you through setting up automatic updates at your preferred frequ
 3. **Add one of these lines** (choose based on your needs):
    ```bash
    # Every hour
-   0 * * * * "/Users/shubh/Desktop/sigaida rep/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
+   0 * * * * "{full_path}/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
 
    # Every 6 hours
-   0 */6 * * * "/Users/shubh/Desktop/sigaida rep/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
+   0 */6 * * * "{full_path}/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
 
    # Daily at 2 AM
-   0 2 * * * "/Users/shubh/Desktop/sigaida rep/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
+   0 2 * * * "{full_path}/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
 
    # Twice daily (8 AM and 8 PM)
-   0 8,20 * * * "/Users/shubh/Desktop/sigaida rep/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
+   0 8,20 * * * "{full_path}/SIGAIDA-CAMPUS-ENERGY/data_collection/update_data.sh"
    ```
 
 ## Files
