@@ -1,7 +1,6 @@
 import openmeteo_requests
 import sqlite3
-import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pandas as pd
 import requests_cache
@@ -21,7 +20,8 @@ factors = ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent
 
 # Calculate date range: from 1940-01-01 to today
 end_date = datetime.now().strftime("%Y-%m-%d")
-start_date = "1940-01-01"
+#start_date = "1940-01-01"
+start_date = "2025-12-05"
 
 params = {
 	"latitude": 40.1164,
@@ -63,5 +63,6 @@ conn = sqlite3.connect("campus_data.db")
 table_name = "historical_weather_data"
 
 # Create/replace the table
-df.to_sql(table_name, conn, if_exists="replace", index=False)
+#df.to_sql(table_name, conn, if_exists="replace", index=False)
+df.to_sql(table_name, conn, if_exists="append", index=False)
 conn.close()

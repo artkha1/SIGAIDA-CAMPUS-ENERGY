@@ -3,3 +3,7 @@ uvicorn[standard]
 python-dotenv
 pydantic
 python-multipart
+pandas
+numpy
+scikit-learn
+torch

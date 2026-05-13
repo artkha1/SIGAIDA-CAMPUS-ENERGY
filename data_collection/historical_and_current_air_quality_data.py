@@ -27,7 +27,8 @@ url = "https://air-quality-api.open-meteo.com/v1/air-quality"
 
 # Calculate date range: from 2022-08-03 to today
 end_date = datetime.now().strftime("%Y-%m-%d")
-start_date = "2022-08-03"
+#start_date = "2022-08-03"
+start_date = "2025-12-05"
 
 params = {
 	"latitude": 40.1164,
@@ -75,7 +76,8 @@ table_name = "historical_air_quality_data"
 table_name_current = "current_air_quality_data"
 
 # Create/replace the table
-df.to_sql(table_name, conn, if_exists="replace", index=False)
+#df.to_sql(table_name, conn, if_exists="replace", index=False)
+df.to_sql(table_name, conn, if_exists="append", index=False)
 df_current.to_sql(table_name_current, conn, if_exists="replace", index=False)
 
 conn.close()

@@ -2,10 +2,8 @@
 Database connection and query management for SIGAIDA Campus Energy
 """
 import sqlite3
-import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional
-from datetime import datetime, timedelta
 
 
 class DatabaseManager:
@@ -16,6 +14,26 @@ class DatabaseManager:
         self.db_path = Path(__file__).parent.parent / "data_collection" / "campus_data.db"
         if not self.db_path.exists():
             raise FileNotFoundError(f"Database not found at {self.db_path}")
+        self._ensure_indexes()
+
+    def _ensure_indexes(self):
+        """Create indexes on frequently sorted/filtered columns if they don't exist."""
+        conn = sqlite3.connect(str(self.db_path))
+        try:
+            cursor = conn.cursor()
+            cursor.executescript("""
+                CREATE INDEX IF NOT EXISTS idx_aq_date
+                    ON historical_air_quality_data(date DESC);
+                CREATE INDEX IF NOT EXISTS idx_weather_date
+                    ON historical_weather_data(date DESC);
+                CREATE INDEX IF NOT EXISTS idx_ndvi_year_month
+                    ON vegetation_data(year DESC, month DESC);
+                CREATE INDEX IF NOT EXISTS idx_openaq_datetime
+                    ON historical_aq_openaq(datetime_utc DESC);
+            """)
+            conn.commit()
+        finally:
+            conn.close()
 
     def get_connection(self):
         """Create a new database connection"""

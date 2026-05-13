@@ -175,40 +175,58 @@ export default function WeatherPage() {
       </Card>
 
       {/* Forecast Cards */}
-      {forecast.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Upcoming Forecast Highlights</CardTitle>
-            <CardDescription>Next 5 days preview</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-5">
-              {forecast.slice(0, 5 * 24, 24).map((item, idx) => (
-                <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm font-medium text-gray-600">
-                    {new Date(item.time).toLocaleDateString('en-US', {
-                      weekday: 'short',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </p>
-                  <div className="text-3xl font-bold my-2">
-                    {formatTemperature(item.temperature_2m || 0)}
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    Humidity: {Math.round(item.relative_humidity_2m || 0)}%
-                  </p>
-                  {item.precipitation !== undefined && item.precipitation > 0 && (
-                    <p className="text-xs text-blue-600 mt-1">
-                      Rain: {formatNumber(item.precipitation)} in
+      {forecast.length > 0 && (() => {
+        // Group hourly rows into days, compute daily high/low
+        const days: { date: string; high: number; low: number; precip: number }[] = [];
+        const seen = new Set<string>();
+        for (const item of forecast) {
+          const day = item.time.slice(0, 10);
+          if (!seen.has(day)) {
+            seen.add(day);
+            const hours = forecast.filter(h => h.time.startsWith(day));
+            days.push({
+              date: day,
+              high: Math.max(...hours.map(h => h.temperature_2m ?? -999)),
+              low: Math.min(...hours.map(h => h.temperature_2m ?? 999)),
+              precip: hours.reduce((sum, h) => sum + (h.precipitation ?? 0), 0),
+            });
+          }
+        }
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>Upcoming Forecast Highlights</CardTitle>
+              <CardDescription>Daily high / low for the next 5 days</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-5">
+                {days.slice(0, 5).map((day, idx) => (
+                  <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm font-medium text-gray-600">
+                      {new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
                     </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                    <div className="text-2xl font-bold my-1">
+                      {formatTemperature(day.high)}
+                    </div>
+                    <div className="text-sm text-gray-500 mb-1">
+                      {formatTemperature(day.low)}
+                    </div>
+                    {day.precip > 0 && (
+                      <p className="text-xs text-blue-600 mt-1">
+                        Rain: {formatNumber(day.precip)} in
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })()}
     </div>
   );
 }

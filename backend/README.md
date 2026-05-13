@@ -8,7 +8,7 @@ FastAPI-based REST API for environmental data monitoring at UIUC campus.
 - **Weather Data**: Historical weather (1940-2025) and 16-day forecasts
 - **Vegetation Data**: NDVI (Normalized Difference Vegetation Index) from satellite imagery
 - **Transit Data**: Bus stops and routes information
-- **ML Integration**: Placeholder structure for future machine learning models
+- **ML Integration**: Simple machine learning models for anomaly detection and air quality forecasting
 
 ## Prerequisites
 
@@ -93,6 +93,7 @@ backend/
 ├── requirements.txt     # Python dependencies
 ├── ml/                  # Machine learning module (placeholder)
 │   ├── __init__.py
+    ├── lstm_pm25.py     # Air quality prediction model
 │   └── predict.py       # ML prediction functions
 └── README.md           # This file
 ```

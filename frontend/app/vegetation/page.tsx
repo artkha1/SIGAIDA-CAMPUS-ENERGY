@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getLatestNDVI, getNDVIStats, getNDVIMonthlyAverage, getNDVITimeSeries } from '@/lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { NDVIChart } from '@/components/charts/NDVIChart';
@@ -21,6 +21,7 @@ export default function VegetationPage() {
   const [cellTimeSeries, setCellTimeSeries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [latestDate, setLatestDate] = useState<string>('');
+  const timeSeriesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +54,9 @@ export default function VegetationPage() {
     try {
       const timeSeries = await getNDVITimeSeries(cell.lat, cell.lon);
       setCellTimeSeries(timeSeries.data);
+      setTimeout(() => {
+        timeSeriesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     } catch (err) {
       console.error('Error fetching time series:', err);
     }
@@ -145,7 +149,7 @@ export default function VegetationPage() {
 
       {/* Selected Cell Time Series */}
       {selectedCell && cellTimeSeries.length > 0 && (
-        <Card className="mb-6">
+        <Card className="mb-6" ref={timeSeriesRef}>
           <CardHeader>
             <CardTitle>
               NDVI Time Series for Selected Location

@@ -12,7 +12,7 @@ A comprehensive full-stack application for collecting, analyzing, and visualizin
 
 📖 **[Complete Quick Start & Deployment Guide →](QUICK_START_GUIDE.md)**
 
-📋 [How to Run (Basic) →](HOW_TO_RUN.md)
+📋 [How to Run (Basic) →](QUICK_START_GUIDE.md)
 
 ---
 
@@ -136,7 +136,7 @@ The easiest way to run the application:
 
 **For Windows:**
 ```bash
-start.bat
+./start.bat
 ```
 
 This will:
@@ -147,7 +147,7 @@ This will:
 To stop the servers:
 ```bash
 ./stop.sh    # Mac/Linux
-stop.bat     # Windows
+./stop.bat     # Windows
 ```
 
 ---

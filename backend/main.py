@@ -310,32 +310,14 @@ async def get_dashboard_summary():
 # ML Prediction Endpoints
 
 @app.get("/api/ml/air-quality-forecast")
-async def get_air_quality_forecast(days: int = Query(7, ge=1, le=30, description="Number of days to forecast")):
-    """Get ML-based air quality forecast (placeholder implementation)"""
+async def get_air_quality_forecast():
+    """Get next-hour PM2.5 prediction from trained LSTM model"""
     try:
-        from ml.predict import ml_predictor
-        predictions = ml_predictor.predict_air_quality(days)
-        return {
-            "predictions": predictions,
-            "days": days,
-            "note": "This is a placeholder. Implement actual ML model for production."
-        }
+        from ml.lstm_pm25 import predict_pm25_next_hour
+        result = predict_pm25_next_hour()
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating forecast: {str(e)}")
-
-
-@app.get("/api/ml/energy-prediction")
-async def get_energy_prediction(hours: int = Query(24, ge=1, le=168, description="Number of hours to forecast")):
-    """Get ML-based energy usage prediction"""
-    try:
-        from ml.predict import ml_predictor
-        predictions = ml_predictor.predict_energy_usage(hours)
-        return {
-            "predictions": predictions,
-            "hours": hours
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating energy prediction: {str(e)}")
 
 
 @app.get("/api/ml/anomalies")
@@ -352,11 +334,29 @@ async def detect_anomalies(data_type: str = Query("air_quality", description="Ty
 @app.get("/api/ml/model-info")
 async def get_model_info():
     """Get information about loaded ML models"""
-    try:
-        from ml.predict import ml_predictor
-        return ml_predictor.get_model_info()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error fetching model info: {str(e)}")
+    return {
+        "models": {
+            "pm25_lstm": {
+                "type": "LSTM (2-layer, hidden_size=64)",
+                "task": "Next-hour PM2.5 prediction",
+                "input_features": ["pm10", "carbon_monoxide", "nitrogen_dioxide", "sulphur_dioxide", "ozone", "carbon_dioxide"],
+                "sequence_length": 24,
+                "epochs_trained": 50,
+                "training_loss": 0.0767,
+                "testing_loss": 0.0517,
+                "rmse": 1.3644,
+                "r_squared": 0.8430,
+            },
+            "anomaly_detector": {
+                "type": "Isolation Forest",
+                "task": "Anomaly detection in air quality readings",
+                "input_features": ["pm2_5", "pm10", "us_aqi", "ozone"],
+                "contamination": 0.01,
+                "trains_on": "Historical data excluding most recent 48 hours",
+                "tests_on": "Most recent 48 hours",
+            }
+        }
+    }
 
 
 # Root endpoint

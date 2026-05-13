@@ -16,23 +16,16 @@ export default function AirQualityPage() {
   const [historicalAQ, setHistoricalAQ] = useState<AirQualityData[]>([]);
   const [openaqData, setOpenaqData] = useState<OpenAQData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [dateRange, setDateRange] = useState(7); // days
-
+  // AFTER
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-
-        // Fetch data without date filtering to get the most recent available data
-        // The limit will determine how many records to show based on dateRange
-        const limit = dateRange * 24; // Approximate hourly records
-
         const [current, historical, openaq] = await Promise.all([
           getCurrentAirQuality(),
-          getHistoricalAirQuality(undefined, undefined, limit),
-          getOpenAQData(dateRange * 24),
+          getHistoricalAirQuality(undefined, undefined, 168),
+          getOpenAQData(168),
         ]);
-
         setCurrentAQ(current.data);
         setHistoricalAQ(historical.data);
         setOpenaqData(openaq.data);
@@ -42,9 +35,8 @@ export default function AirQualityPage() {
         setLoading(false);
       }
     };
-
     fetchData();
-  }, [dateRange]);
+  }, []);
 
   if (loading) {
     return (
@@ -66,23 +58,6 @@ export default function AirQualityPage() {
         <p className="text-gray-600 mt-2">
           Real-time and historical air quality data for UIUC campus
         </p>
-      </div>
-
-      {/* Date Range Selector */}
-      <div className="mb-6 flex gap-2">
-        {[7, 14, 30].map((days) => (
-          <button
-            key={days}
-            onClick={() => setDateRange(days)}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              dateRange === days
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            {days} Days
-          </button>
-        ))}
       </div>
 
       {/* Current AQI Card */}

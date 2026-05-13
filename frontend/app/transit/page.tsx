@@ -112,12 +112,8 @@ export default function TransitPage() {
 
     return () => {
       clearTimeout(timer);
-      if (map) {
-        console.log('🗑️ Cleaning up transit map');
-        map.remove();
-      }
     };
-  }, [L, map]);
+  }, [L]);
 
   useEffect(() => {
     if (!map || !L || !stops.length) return;
@@ -236,7 +232,6 @@ export default function TransitPage() {
               className="w-full h-full rounded-lg"
               style={{
                 minHeight: '500px',
-                visibility: map ? 'visible' : 'hidden'
               }}
             />
           </div>
